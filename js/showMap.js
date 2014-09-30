@@ -80,7 +80,7 @@ function calcRoute(attractionArray) {
         destination: end,
         waypoints: wayPointArray,
         optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.WALKING
+        travelMode: google.maps.TravelMode.DRIVING
     };
     directionsService.route(request, function(response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
