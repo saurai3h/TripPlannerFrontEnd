@@ -2,10 +2,7 @@
  * Created by saurabh on 25/9/14.
  */
 
-populateAttractions =
-
-$(function()    {
-
+populateAttractions =$(function()    {
     var url = $(location).attr("href");
     var keyValueData = url.split("?")[1].split("&");
 
@@ -42,8 +39,11 @@ $(function()    {
 
                     $(".row").append(parentDivForThumbnail);
                 }
+
+                $( ".connectedSortable" ).sortable({
+                    connectWith: ".connectedSortable"
+                }).disableSelection();
             }
         }
     );
-
 });
