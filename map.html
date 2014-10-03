@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trip Planner Maps</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/stylish-portfolio.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+
+    <!-- jQuery Version 1.11.0 -->
+    <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <img class="navbar-brand" src="images/main_logo.jpg" style="cursor: pointer; padding: 0px 0px" onclick="goHome()">
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a id="toHome" href="index.html">Home</a></li>
+                <li><a id="toPlanner" href="#">Planner</a></li>
+                <li class="active"><a id="toMap" href="#">Map</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="toSave" href="#">Save</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="col-lg-3" style="margin: 2%;height: 70%">
+
+    <br>
+    <br>
+    <strong style="font-size: 20px;float:left">Day number</strong>
+    <select id = "dayNoSelector" class="form-control" style="width: 25%;margin-left: 40%"></select>
+    <br>
+    <br>
+    <button id = "goButton" class="btn btn-lg btn-primary" style="margin-top: -15%;width: 25%;outline: none">Go!!</button>
+
+    <div id = "details" class="panel panel-default" style="display: none;margin-top: 4%">
+        <div class="panel-heading">
+            <h3 class="panel-title">Attraction Names</h3>
+        </div>
+        <div class="panel-body">
+
+        </div>
+
+    </div>
+</div>
+<div class="col-lg-8" id="map-canvas" style="height: 70%;margin: 2%;border: 5px solid hsl(190, 42%, 52%)"></div>
+
+</body>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- jQuery Version 1.11.0 -->
+<script src="js/jquery-1.11.0.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script src="js/showMap.js"></script>
+<script src="js/redirectingToPlanner.js"></script>
+
+<script>
+    function goHome()   {
+        $(location).attr("href","index.html");
+    }
+</script>
+
+</html>

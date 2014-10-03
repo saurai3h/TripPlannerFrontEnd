@@ -1,46 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html style="overflow-x:hidden">
 <head>
     <title>Trip Planner</title>
 
+    <!--Stylesheets-->
+
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
-    <link href="css/stylish-portfolio.css" rel="stylesheet">
-
+    <link href="css/stylish-portfolio.css" rel="stylesheet" type="text/css">
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
-
     <!-- jQuery Version 1.11.0 -->
     <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!--Calendar-->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.css" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.print.css" rel="stylesheet" type="text/css">
+    <link href="css/container.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
 
-<div class="row">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
 
+        <div class="navbar-header">
+            <img class="navbar-brand" src="images/main_logo.jpg" style="cursor: pointer;padding: 0% 0%" onclick="goHome()">
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a id="toHome" href="index.html">Home</a></li>
+                <li class="active"><a id="toPlanner" href="#">Planner</a></li>
+                <li><a id="toMap" href="#">Map</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="toSave" href="#">Save</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row">
+    <ul id="day-header">
+
+    </ul>
+    <ul id="container" class="outerlist">
+
+    </ul>
 </div>
+<div class="modal" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="descriptionModalLabel" style="font-family: myFirstFont;font-size: 200%"></h4>
+            </div>
+            <div class="modal-body">
+
+                <img id="attractionImage" style="width: 35%; margin-left: 30%; border: solid 5px #dcdcdc" >
+
+                <div id = "attractionDetails" class="panel panel-default" style="display: none;margin-top: 4%">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Attraction Details</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tbody>
+                                <tr id="stars" style="display: none">
+                                    <th>Stars :</th>
+                                </tr>
+                                <tr id="visitTime" style="display: none">
+                                    <th>Expected Visit time :</th>
+                                </tr>
+                                <tr id="fee" style="display: none">
+                                    <th>Fee :</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <p id="attractionDescription" style="display:none;"></p>
+                <p id="additionalInformation" style="display:none;"></p>
+                <p id="activities" style="display:none;"></p>
+
+            </div>
+            <div class="modal-footer">
+                <button id = "descriptionModalClose" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" id = "descriptionModalInfo" class="btn btn-default">More information</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!--Scripts-->
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 
 <!-- jQuery Version 1.11.0 -->
 <script src="js/jquery-1.11.0.js"></script>
 <script src="js/jquery-ui.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
-
+<!--Moment-->
+<script src='//momentjs.com/downloads/moment.min.js'></script>
+<!--Populates the page-->
 <script src="js/populateAttractions.js"></script>
+<!--Populate the modal-->
+<script src="js/populateModal.js"></script>
+<!--To map mode-->
+<script src="js/redirectingToMap.js"></script>
 
-<script src="js/sortableList.js"></script>
+<script>
+    function goHome()   {
+        $(location).attr("href","index.html");
+    }
+</script>
 
-</body>
 </html>

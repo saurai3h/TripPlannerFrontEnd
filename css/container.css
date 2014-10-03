@@ -1,0 +1,30 @@
+.row  {
+    width: auto;
+    overflow-x: scroll;
+    height: 100%;
+
+}
+
+#container  {
+    height: 100%;
+    width: 100%;
+    white-space:nowrap;
+}
+
+#day-header {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.resize {
+
+}
+
+.outerlist  {
+
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url('../fonts/Parisienne-Regular.ttf');
+}
