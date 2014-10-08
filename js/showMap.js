@@ -48,12 +48,20 @@ populatePanel = function(attractionsData)   {
     $("#details").show();
     $(".panel-body").empty();
 
-//    Todo : THis logic needs to change when there are more elements in the path than 4.
-    if(orderArray[0] === 1) {
-//      Swapping attractionsData[1] and attractionsData[2]
+//    console.log(attractionsData);
+//    console.log(orderArray);
 
-        attractionsData[2] = [attractionsData[1], attractionsData[1] = attractionsData[2]][0];
+    var resultAttractionsData = [];
+    resultAttractionsData.push(attractionsData[0]);
+
+    for(var i = 1 ; i < attractionsData.length - 1; ++i)    {
+        resultAttractionsData.push(attractionsData[orderArray[i-1] + 1]);
     }
+    resultAttractionsData.push(attractionsData[attractionsData.length - 1]);
+
+//    console.log(resultAttractionsData);
+
+    attractionsData = resultAttractionsData;
 
     for(var attraction in attractionsData) {
         var attractionName = attractionsData[attraction]["name"];
