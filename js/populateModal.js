@@ -61,7 +61,7 @@ function populateModal(attractions,day,index) {
         }
     }
     $("#descriptionModalInfo").on("click",function(){
-        $(location).attr("href",attractions[day][index]["reviewURL"]);
+        window.open(attractions[day][index]["reviewURL"],'_blank');
     });
 
 }

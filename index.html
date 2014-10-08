@@ -79,6 +79,8 @@
 <!--Redirects to Planner with values needed-->
 <script>
 
+    $(document).ready(function(){window.name = "empty";});
+
     $("#cityClick").on("click", function() {
         var url = "Planner.html?city=" + $("#cityName").val() + "&days=" + $("#cityDays").val();
         $(location).attr("href",url);

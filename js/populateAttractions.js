@@ -1,66 +1,99 @@
-/**
- * Created by saurabh on 25/9/14.
- */
+var allAttractionsForACity;
+
+function calculateDistanceAndPopulateAttractions(attractionsForAllDays) {
+    var attractionIDs = [];
+    for (var outer in attractionsForAllDays) {
+        var attractionIDsOneDay = [];
+        for (var inner in attractionsForAllDays[outer]) {
+            attractionIDsOneDay.push(attractionsForAllDays[outer][inner]["attractionID"]);
+        }
+        attractionIDs.push(attractionIDsOneDay);
+    }
+
+    $.ajax({
+        url: "http://localhost:8080/api/distanceBetweenAllAttractions",
+        type: "POST",
+        data: {attractionIDs: JSON.stringify(attractionIDs)},
+        success: function (dataALL) {
+            var distanceBetweenAttractions = jQuery.parseJSON(dataALL);
+            populateEverything(attractionsForAllDays, distanceBetweenAttractions);
+
+        }
+    });
+}
+
+function clearAndSetCookiesForSchedules(attractionsForAllDays) {
+    window.name = JSON.stringify(attractionsForAllDays);
+}
 
 populateAttractions =
 
-$(function()    {
+    $(function()    {
 
-    var url = $(location).attr("href");
-    var keyValueData = url.split("?")[1].split("&");
+        var url = $(location).attr("href");
+        var keyValueData = url.split("?")[1].split("&");
 
-    var cityName = keyValueData[0].split("=")[1];
-    var numberOfDays = keyValueData[1].split("=")[1][0];
+        var cityName = keyValueData[0].split("=")[1];
+        var numberOfDays = keyValueData[1].split("=")[1][0];
 
     // TODO : changing later when you delete/add the day itself.
-    for (var day = 1 ; day <= numberOfDays ; ++day) {
+        for (var day = 1 ; day <= numberOfDays ; ++day) {
 
-        var headerElement = document.createElement("li");
-        $(headerElement).attr("style","width:25%;display:inline-block");
+            var headerElement = document.createElement("li");
+            $(headerElement).attr("style","width:25%;display:inline-block");
 
-        var divForDayNumber = document.createElement("div");
-        $(divForDayNumber).addClass("col-lg-12");
-        $(divForDayNumber).html("Day " + day.toString());
-        $(divForDayNumber).attr("style", "font-size:25px;margin-left:35%");
+            var divForDayNumber = document.createElement("div");
+            $(divForDayNumber).addClass("col-lg-12");
+            $(divForDayNumber).html("Day " + day.toString());
+            $(divForDayNumber).attr("style", "font-size:25px;margin-left:35%");
 
-        $(headerElement).append(divForDayNumber);
-        $("#day-header").append(headerElement);
-    }
-
-    $.ajax(
-        {
-            url: "http://localhost:8080/api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays,
-            type: "GET",
-            success: function (strData) {
-
-                var attractionsforAllDays = jQuery.parseJSON(strData);
-
-                var attractionIDs = [];
-                for(var outer in attractionsforAllDays) {
-                    var attractionIDsOneDay = [];
-                    for (var inner in attractionsforAllDays[outer]) {
-                        attractionIDsOneDay.push(attractionsforAllDays[outer][inner]["attractionID"]);
-                    }
-                    attractionIDs.push(attractionIDsOneDay);
-                }
-
-                var distanceBetweenAttractions = [];
-
-                    $.ajax({
-                        url: "http://localhost:8080/api/distanceBetweenAllAttractions",
-                        type: "POST",
-                        data: {attractionIDs : JSON.stringify(attractionIDs)},
-                        success: function (dataALL) {
-                            var distanceBetweenAttractions = jQuery.parseJSON(dataALL);
-                            console.log(distanceBetweenAttractions);
-                            populateEverything(attractionsforAllDays,distanceBetweenAttractions);
-
-                        }
-                    });
-            }
+            $(headerElement).append(divForDayNumber);
+            $("#day-header").append(headerElement);
         }
-    );
 
+        if(window.name === "empty") {
+            $.ajax(
+                {
+                    url: "http://localhost:8080/api/allAttractionsForACity?city=" + cityName,
+                    type: "GET",
+                    success: function(allData)  {
+
+                        allAttractionsForACity = JSON.parse(allData);
+
+                        $.ajax(
+                            {
+                                url: "http://localhost:8080/api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays,
+                                type: "GET",
+                                success: function (strData) {
+
+                                    var attractionsForAllDays = jQuery.parseJSON(strData);
+//                                    console.log(attractionsForAllDays);
+
+                                    clearAndSetCookiesForSchedules(attractionsForAllDays);
+
+                                    calculateDistanceAndPopulateAttractions(attractionsForAllDays);
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+        }
+        else    {
+            $.ajax(
+                {
+                    url: "http://localhost:8080/api/allAttractionsForACity?city=" + cityName,
+                    type: "GET",
+                    success: function(allData)  {
+
+                        allAttractionsForACity = JSON.parse(allData);
+                        var attractionsForAllDays = JSON.parse(window.name);
+                        clearAndSetCookiesForSchedules(attractionsForAllDays);
+                        calculateDistanceAndPopulateAttractions(attractionsForAllDays);
+                    }
+                }
+            );
+        }
 });
 
 function populateEverything(allAttractions,distanceArray) {
@@ -86,32 +119,71 @@ function populateEverything(allAttractions,distanceArray) {
         $(divForThumbnail).append(listForAttractions);
 
         var last = false;
+
+        var transitInit = document.createElement("div");
+        $(transitInit).addClass("myClass2");
+        var addAttractionInit = document.createElement("i");
+        $(addAttractionInit).addClass("fa fa-plus fa-2x");
+        $(addAttractionInit).attr("style","float:right;margin-top:2%;cursor:pointer;margin-right:5%;color:#4A7023");
+        $(addAttractionInit).attr("id",oneDay + ":" + 0 + ":addImage");
+        $(addAttractionInit).attr("data-toggle","modal");
+        $(addAttractionInit).attr("data-target","#notVisitedModal");
+
+        $(addAttractionInit).click(function(){
+            var myArray = $(this).attr("id").split(":");
+            var day = parseInt(myArray[0]);
+            var element = parseInt(myArray[1]);
+
+            populateNotVisited(allAttractions,day,element);
+        });
+
+        $(transitInit).attr("style","display:inline-block;margin-left:47%;margin-top:5%");
+        $(transitInit).append(addAttractionInit);
+        $(listForAttractions).append(transitInit);
+
         for(var attraction in allAttractions[oneDay]) {
 
             var div = document.createElement("div");
-            $(div).addClass("ui-state-default col-lg-12 resize");
+            $(div).addClass("ui-state-default col-lg-12");
 
             $(div).attr("style","margin:2%; overflow-y: hidden");
 
-            var transit;
+            var transit = document.createElement("div");
+            $(transit).addClass("myClass2");
+
+            var addAttraction = document.createElement("i");
+            $(addAttraction).addClass("fa fa-plus fa-2x");
+            $(addAttraction).attr("style","float:right;margin-top:2%;cursor:pointer;margin-right:5%;color:#4A7023");
+            $(addAttraction).attr("id",oneDay + ":" + parseInt(parseInt(attraction) + 1) + ":addImage");
+            $(addAttraction).attr("data-toggle","modal");
+            $(addAttraction).attr("data-target","#notVisitedModal");
+
+            $(addAttraction).click(function(){
+                var myArray = $(this).attr("id").split(":");
+                var day = parseInt(myArray[0]);
+                var element = parseInt(myArray[1]);
+
+                populateNotVisited(allAttractions,day,element);
+            });
 
             if(attraction < allAttractions[oneDay].length - 1) {
 
-                transit = document.createElement("div");
                 $(transit).attr("style", "display:inline-block;margin-left:15%");
 
                 var transitTime = document.createElement("span");
                 $(transitTime).attr("id",oneDay + ":" + attraction + ":strip");
-                $(transitTime).html(distanceArray[oneDay][attraction]);
+                $(transitTime).html(parseInt(parseInt(distanceArray[oneDay][attraction])/30000 * 60 + 5).toString() + " mins");
 
                 var roadStrip = document.createElement("img");
                 $(roadStrip).attr("src", "images/road.png");
                 $(roadStrip).attr("style", "width:30%;height:40px;margin-left:10%");
-//                        TODO : make this height according to distance.
 
                 $(transit).append(transitTime);
                 $(transit).append(roadStrip);
+                $(transit).append(addAttraction);
             }   else {
+                $(transit).attr("style","display:inline-block;margin-left:47%;margin-top:5%")
+                $(transit).append(addAttraction);
                 last = true;
             }
 
@@ -136,9 +208,9 @@ function populateEverything(allAttractions,distanceArray) {
             $(li).attr("style","padding-left:2%;padding-top:2%;");
             $(li).append(aLink);
 
-            var deleteImage = document.createElement("img");
-            $(deleteImage).attr("src","images/delete.png");
-            $(deleteImage).attr("style","position:relative;width:10%;float:right;margin-top:2%;cursor:pointer;");
+            var deleteImage = document.createElement("i");
+            $(deleteImage).addClass("fa fa-times fa-2x");
+            $(deleteImage).attr("style","float:right;margin-top:2%;cursor:pointer;color:#B22222");
             $(deleteImage).attr("id",oneDay + ":" + attraction + ":deleteImage");
 
             $(deleteImage).click(function () {
@@ -146,7 +218,9 @@ function populateEverything(allAttractions,distanceArray) {
                 var day = parseInt(myArray[0]);
                 var element = parseInt(myArray[1]);
                 allAttractions[day].splice(element,1);
-                populateEverything(allAttractions,distanceArray);
+
+                clearAndSetCookiesForSchedules(allAttractions);
+                calculateDistanceAndPopulateAttractions(allAttractions);
             });
 
             var divForImage = document.createElement("div");
@@ -157,20 +231,18 @@ function populateEverything(allAttractions,distanceArray) {
             $(image).attr("style","padding-left:2%;padding-top:2%;padding-bottom:2%; height:110px");
             $(divForImage).append(image);
 
-            //                        TODO : make this category instead of type.
+            var desc_content = allAttractions[oneDay][attraction]["category"];
+            var description = document.createElement("div");
+            $(description).html(desc_content.split(",")[0]);
+            $(description).attr("style", "padding-top:5%");
+            $(description).addClass("col-lg-6");
+            $(image).addClass("col-lg-6");
+            $(divForImage).append(description);
 
-            var desc_content = allAttractions[oneDay][attraction]["type"];
-            if(desc_content != null) {
-                var description = document.createElement("div");
-                $(description).html(desc_content.split(",")[0]);
-                $(description).attr("style", "padding-top:5%");
-                $(description).addClass("col-lg-6");
-                $(image).addClass("col-lg-6");
-                $(divForImage).append(description);
-            }
-            else    {
-                $(image).addClass("col-lg-12");
-            }
+            var visitingTime = document.createElement("div");
+            $(visitingTime).html("<br>" + allAttractions[oneDay][attraction]["visitTime"].toFixed(2) + " hrs");
+            $(visitingTime).addClass("col-lg-6");
+            $(divForImage).append(visitingTime);
 
             $(divForLi).append(li);
 
@@ -181,7 +253,7 @@ function populateEverything(allAttractions,distanceArray) {
 
             $(listForAttractions).append(div);
 
-            if(last !== true)$(listForAttractions).append(transit);
+            $(listForAttractions).append(transit);
         }
 
         $(listElement).append(parentDivForThumbnail);
@@ -189,20 +261,36 @@ function populateEverything(allAttractions,distanceArray) {
 
     }
     $(".connectedSortable").sortable({
-        connectWith: ".connectedSortable"
+        items: '> div:not(.myClass2)',
+        connectWith: ".connectedSortable",
+        stop: function(event,ui) {
+
+            var dragArray = ui.item[0].childNodes[0].id.split(":");
+            var draggingThumbnail = dragArray[0];
+            var draggingPosition = dragArray[1];
+
+            var draggedElement = allAttractions[draggingThumbnail][draggingPosition];
+
+            var dropArary = ui.item[0].parentNode.lastChild.firstChild.id.split(":");
+            var droppingThumbnail = dropArary[0];
+            var droppingPosition = dropArary[1];
+
+            if(droppingThumbnail === draggingThumbnail) {
+
+            }
+            else {
+                allAttractions[draggingThumbnail].splice(draggingPosition, 1);
+
+                allAttractions[droppingThumbnail].splice(droppingPosition, 0, draggedElement);
+
+                clearAndSetCookiesForSchedules(allAttractions);
+                calculateDistanceAndPopulateAttractions(allAttractions);
+            }
+        }
     }).disableSelection();
 
     $(".outerlist").sortable({
         handles: 'w,e',
         connectWith: ".outerlist"
     }).disableSelection();
-
-    $('.resize').resizable({
-        handles: 's',
-        stop: function(event, ui) {
-            $(this).css("width", '');
-        }
-    });
-
-
 }

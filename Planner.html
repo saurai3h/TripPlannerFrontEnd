@@ -14,9 +14,8 @@
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <!-- jQuery Version 1.11.0 -->
     <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
-    <!--Calendar-->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.css" rel="stylesheet" type="text/css">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.print.css" rel="stylesheet" type="text/css">
+
+    <!--Custom styles of my own-->
     <link href="css/container.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -31,7 +30,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a id="toHome" href="index.html">Home</a></li>
+                <li><a id="toHome" style="cursor:pointer;" onclick="goHome()">Home</a></li>
                 <li class="active"><a id="toPlanner" href="#">Planner</a></li>
                 <li><a id="toMap" href="#">Map</a></li>
             </ul>
@@ -49,6 +48,7 @@
 
     </ul>
 </div>
+<!-- Modal -->
 <div class="modal" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -94,6 +94,26 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal" id="notVisitedModal" tabindex="-1" role="dialog" aria-labelledby="notVisitedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="notVisitedModalLabel">Add any one of these attractions to your trip.</h4>
+            </div>
+            <div class="modal-body">
+                <select id = "attractionToAdd" class="form-control">
+
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary myClass">Add Attraction!</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 <!--Scripts-->
@@ -108,20 +128,29 @@
 <!-- jQuery Version 1.11.0 -->
 <script src="js/jquery-1.11.0.js"></script>
 <script src="js/jquery-ui.min.js"></script>
+
+<!--jquery cookies-->
+<script src="js/jquery.cookie.min.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <!--Moment-->
-<script src='//momentjs.com/downloads/moment.min.js'></script>
+<script src='http://momentjs.com/downloads/moment.min.js'></script>
 <!--Populates the page-->
 <script src="js/populateAttractions.js"></script>
 <!--Populate the modal-->
 <script src="js/populateModal.js"></script>
 <!--To map mode-->
 <script src="js/redirectingToMap.js"></script>
+<!--Modal for Adding-->
+<script src="js/populateExceptGiven.js"></script>
 
 <script>
     function goHome()   {
-        $(location).attr("href","index.html");
+        var sureToLeave = confirm("Your trip plan will be destroyed. Are you sure?");
+        if(sureToLeave == true) {
+            $(location).attr("href", "index.html");
+        }
     }
 </script>
 

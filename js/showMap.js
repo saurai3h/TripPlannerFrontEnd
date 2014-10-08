@@ -31,27 +31,17 @@ $("#goButton").click(function() {
 
 
 function generateMap(cityName, dayNo,numberOfDays) {
+
     if(numberOfDays<dayNo){
         alert("trip too short for this map to be displayed");
         return;
     }
 
-    $.ajax(
-        {
-            url: "http://localhost:8080/api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays,
-            type: "GET",
-            success: function (strData) {
-                var attractionsForAllDays = jQuery.parseJSON(strData);
-                if(attractionsForAllDays.length<dayNo){
-                    alert("invalid day!");
-                    return;
-                }
-                var attractionsForThatDay = attractionsForAllDays[dayNo-1];
+    var attractionsForAllDays = JSON.parse(window.name);
+    var attractionsForThatDay = attractionsForAllDays[dayNo-1];
 
-                calcRoute(attractionsForThatDay);
-            }
+    calcRoute(attractionsForThatDay);
 
-        });
 }
 populatePanel = function(attractionsData)   {
 
@@ -96,6 +86,8 @@ function getLatLngOfAttraction(attraction){
 }
 
 function calcRoute(attractionArray) {
+
+//    console.log(attractionArray);
 
     var tempArray = attractionArray;
     var source = attractionArray[0];

@@ -39,7 +39,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a id="toHome" href="index.html">Home</a></li>
+                <li><a id="toHome" style="cursor:pointer;" onclick="goHome()">Home</a></li>
                 <li><a id="toPlanner" href="#">Planner</a></li>
                 <li class="active"><a id="toMap" href="#">Map</a></li>
             </ul>
@@ -85,6 +85,9 @@
 <script src="js/jquery-1.11.0.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 
+<!--jquery cookies-->
+<script src="js/jquery.cookie.min.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
@@ -93,7 +96,10 @@
 
 <script>
     function goHome()   {
-        $(location).attr("href","index.html");
+        var sureToLeave = confirm("Your trip plan will be destroyed. Are you sure?");
+        if(sureToLeave == true) {
+            $(location).attr("href", "index.html");
+        }
     }
 </script>
 

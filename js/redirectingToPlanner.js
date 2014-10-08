@@ -10,4 +10,6 @@ $("#toPlanner").on("click",function(){
     var numberOfDays = keyValueData[1].split("=")[1][0];
 
     $(location).attr("href","Planner.html?city="+cityName+"&days=" + numberOfDays);
+
 });
+

@@ -16,10 +16,6 @@
     white-space: nowrap;
 }
 
-.resize {
-
-}
-
 .outerlist  {
 
 }
@@ -27,4 +23,12 @@
 @font-face {
     font-family: myFirstFont;
     src: url('../fonts/Parisienne-Regular.ttf');
+}
+
+.myClass {
+
+}
+
+.myClass2   {
+
 }
