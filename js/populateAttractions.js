@@ -54,7 +54,7 @@ populateAttractions =
         if(window.name === "empty") {
             $.ajax(
                 {
-                    url: "http://localhost:8080/api/allAttractionsForACity?city=" + cityName,
+                    url: "http://localhost:8080/api/getAllAttractions?city=" + cityName,
                     type: "GET",
                     success: function(allData)  {
 
@@ -82,7 +82,7 @@ populateAttractions =
         else    {
             $.ajax(
                 {
-                    url: "http://localhost:8080/api/allAttractionsForACity?city=" + cityName,
+                    url: "http://localhost:8080/api/getAllAttractions?city=" + cityName,
                     type: "GET",
                     success: function(allData)  {
 
@@ -104,6 +104,7 @@ function populateEverything(allAttractions,distanceArray) {
 
         var listElement = document.createElement("li");
         $(listElement).attr("style","width:25%;display:inline-block;height:100%;");
+        $(listElement).attr("id",oneDay + "listElement");
 
         var parentDivForThumbnail = document.createElement("div");
         $(parentDivForThumbnail).addClass("col-lg-12");
@@ -271,21 +272,18 @@ function populateEverything(allAttractions,distanceArray) {
 
             var draggedElement = allAttractions[draggingThumbnail][draggingPosition];
 
-            var dropArary = ui.item[0].parentNode.lastChild.firstChild.id.split(":");
+            var dropArary = ui.item[0].parentNode.firstChild.firstChild.id.split(":");
             var droppingThumbnail = dropArary[0];
-            var droppingPosition = dropArary[1];
 
-            if(droppingThumbnail === draggingThumbnail) {
+            var droppingPosition = ui.item.index("#" + droppingThumbnail + "listElement ul > div.ui-state-default");
 
-            }
-            else {
-                allAttractions[draggingThumbnail].splice(draggingPosition, 1);
+            allAttractions[draggingThumbnail].splice(draggingPosition, 1);
 
-                allAttractions[droppingThumbnail].splice(droppingPosition, 0, draggedElement);
+            allAttractions[droppingThumbnail].splice(droppingPosition, 0, draggedElement);
 
-                clearAndSetCookiesForSchedules(allAttractions);
-                calculateDistanceAndPopulateAttractions(allAttractions);
-            }
+            clearAndSetCookiesForSchedules(allAttractions);
+            calculateDistanceAndPopulateAttractions(allAttractions);
+
         }
     }).disableSelection();
 
