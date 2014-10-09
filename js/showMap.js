@@ -48,9 +48,6 @@ populatePanel = function(attractionsData)   {
     $("#details").show();
     $(".panel-body").empty();
 
-//    console.log(attractionsData);
-//    console.log(orderArray);
-
     var resultAttractionsData = [];
     resultAttractionsData.push(attractionsData[0]);
 
@@ -58,8 +55,6 @@ populatePanel = function(attractionsData)   {
         resultAttractionsData.push(attractionsData[orderArray[i-1] + 1]);
     }
     resultAttractionsData.push(attractionsData[attractionsData.length - 1]);
-
-//    console.log(resultAttractionsData);
 
     attractionsData = resultAttractionsData;
 
@@ -95,8 +90,6 @@ function getLatLngOfAttraction(attraction){
 
 function calcRoute(attractionArray) {
 
-//    console.log(attractionArray);
-
     var tempArray = attractionArray;
     var source = attractionArray[0];
     var destination = attractionArray[attractionArray.length - 1];
@@ -113,7 +106,7 @@ function calcRoute(attractionArray) {
         origin: start,
         destination: end,
         waypoints: wayPointArray,
-        optimizeWaypoints: true,
+        optimizeWaypoints: false,
         travelMode: google.maps.TravelMode.DRIVING
     };
     directionsService.route(request, function(response, status) {

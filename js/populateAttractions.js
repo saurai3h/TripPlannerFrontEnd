@@ -139,7 +139,7 @@ function populateEverything(allAttractions,distanceArray) {
         $(transitInit).addClass("myClass2");
         var addAttractionInit = document.createElement("i");
         $(addAttractionInit).addClass("fa fa-plus fa-2x");
-        $(addAttractionInit).attr("style","float:right;margin-top:2%;cursor:pointer;margin-right:5%;color:#4A7023");
+        $(addAttractionInit).attr("style","float:right;margin-top:5%;font-size:130%;cursor:pointer;margin-right:2%;color:#4A7023");
         $(addAttractionInit).attr("id",oneDay + ":" + 0 + ":addImage");
         $(addAttractionInit).attr("data-toggle","modal");
         $(addAttractionInit).attr("data-target","#notVisitedModal");
@@ -161,14 +161,14 @@ function populateEverything(allAttractions,distanceArray) {
             var div = document.createElement("div");
             $(div).addClass("ui-state-default col-lg-12");
 
-            $(div).attr("style","margin:2%; overflow-y: hidden");
+            $(div).attr("style","margin:2%; overflow-y: hidden; padding-right:3%;padding-left:3%");
 
             var transit = document.createElement("div");
             $(transit).addClass("myClass2");
 
             var addAttraction = document.createElement("i");
             $(addAttraction).addClass("fa fa-plus fa-2x");
-            $(addAttraction).attr("style","float:right;margin-top:2%;cursor:pointer;margin-right:5%;color:#4A7023");
+            $(addAttraction).attr("style","float:right;font-size:130%;margin-top:5%;cursor:pointer;margin-right:2%;color:#4A7023");
             $(addAttraction).attr("id",oneDay + ":" + parseInt(parseInt(attraction) + 1) + ":addImage");
             $(addAttraction).attr("data-toggle","modal");
             $(addAttraction).attr("data-target","#notVisitedModal");
@@ -181,18 +181,26 @@ function populateEverything(allAttractions,distanceArray) {
                 populateNotVisited(allAttractions,day,element);
             });
 
+            var toSubtract;
+
+            var timeToVisitInHours = allAttractions[oneDay][attraction]["visitTime"];
+            var minutesVisited = Math.floor((timeToVisitInHours%1)*60.0);
+            var hoursVisited = Math.floor(timeToVisitInHours);
+
             if(attraction < allAttractions[oneDay].length - 1) {
 
                 $(transit).attr("style", "display:inline-block;margin-left:15%");
 
                 var transitTime = document.createElement("span");
                 $(transitTime).attr("id",oneDay + ":" + attraction + ":strip");
+
                 var timeInMinutes = parseInt(parseInt(distanceArray[oneDay][attraction])/30000.0 * 60.0 + 5);
-                timesForAllDays[oneDay] += timeInMinutes/60.0;
+                toSubtract = timeInMinutes/60.0;
+                timesForAllDays[oneDay] += toSubtract;
+
                 $(transitTime).html(timeInMinutes.toString() + " mins");
 
                 var roadStrip = document.createElement("img");
-//                $(roadStrip).addClass("fa fa-road fa-4x")
                 $(roadStrip).attr("src", "images/road.png");
                 $(roadStrip).attr("style", "width:30%;height:40px;margin-left:10%");
 
@@ -200,6 +208,7 @@ function populateEverything(allAttractions,distanceArray) {
                 $(transit).append(roadStrip);
                 $(transit).append(addAttraction);
             }   else {
+                toSubtract = 0;
                 $(transit).attr("style","display:inline-block;margin-left:47%;margin-top:5%")
                 $(transit).append(addAttraction);
                 last = true;
@@ -222,13 +231,27 @@ function populateEverything(allAttractions,distanceArray) {
             });
             $(aLink).html(allAttractions[oneDay][attraction]["name"]);
 
+            var timeNow = parseFloat(parseFloat(timesForAllDays[oneDay]) - parseFloat(toSubtract) + 9.0);
+
+            var timeNowMinutes = Math.floor((timeNow%1)*60.0);
+            if(timeNowMinutes <= 9)timeNowMinutes = "0" + timeNowMinutes;
+
+            var timeNowHours = Math.floor(timeNow);
+            if(timeNowHours <= 9)timeNowHours = "0" + timeNowHours;
+
+            if(attraction == 0) timeNowMinutes = "00";
+
+            var timeSpent = document.createElement("span");
+            $(timeSpent).html("&nbsp;&nbsp;" + timeNowHours + ":" + timeNowMinutes);
+
             var li = document.createElement("li");
             $(li).attr("style","padding-left:2%;padding-top:2%;");
             $(li).append(aLink);
+            $(li).append(timeSpent);
 
             var deleteImage = document.createElement("i");
             $(deleteImage).addClass("fa fa-times fa-2x");
-            $(deleteImage).attr("style","float:right;margin-top:2%;cursor:pointer;color:#B22222");
+            $(deleteImage).attr("style","float:right;font-size:130%;margin-top:2%;cursor:pointer;color:#B22222");
             $(deleteImage).attr("id",oneDay + ":" + attraction + ":deleteImage");
 
             $(deleteImage).click(function () {
@@ -259,14 +282,9 @@ function populateEverything(allAttractions,distanceArray) {
 
             var visitingTime = document.createElement("div");
 
-            var timeToVisitInHours = allAttractions[oneDay][attraction]["visitTime"];
-
             var timeDiv = document.createElement("div");
             $(timeDiv).addClass("col-lg-12 ");
             $(timeDiv).attr("style","padding:0%");
-
-            var minutesVisited = Math.floor((timeToVisitInHours%1)*60.0);
-            var hoursVisited = Math.floor(timeToVisitInHours);
 
             var inputHours = document.createElement("input");
             $(inputHours).addClass("form-control");
