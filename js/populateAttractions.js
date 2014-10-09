@@ -1,4 +1,5 @@
 var allAttractionsForACity;
+var timesForAllDays = [];
 
 function calculateDistanceAndPopulateAttractions(attractionsForAllDays) {
     var attractionIDs = [];
@@ -49,6 +50,18 @@ populateAttractions =
 
             $(headerElement).append(divForDayNumber);
             $("#day-header").append(headerElement);
+
+            timesForAllDays.push(0);
+            var timeElement = document.createElement("li");
+            $(timeElement).attr("style","width:25%;display:inline-block");
+
+            var divForDayTime = document.createElement("div");
+            $(divForDayTime).addClass("col-lg-12");
+            $(divForDayTime).attr("id",day-1 + ":timeTaken");
+            $(divForDayTime).attr("style", "font-size:25px;margin-left:30%");
+
+            $(timeElement).append(divForDayTime);
+            $("#day-time").append(timeElement);
         }
 
         if(window.name === "empty") {
@@ -96,12 +109,13 @@ populateAttractions =
         }
 });
 
+
 function populateEverything(allAttractions,distanceArray) {
 
     $("#container").empty();
 
     for(var oneDay in allAttractions) {
-
+        timesForAllDays[oneDay] = 0;
         var listElement = document.createElement("li");
         $(listElement).attr("style","width:25%;display:inline-block;height:100%;");
         $(listElement).attr("id",oneDay + "listElement");
@@ -115,7 +129,7 @@ function populateEverything(allAttractions,distanceArray) {
 
         var listForAttractions = document.createElement("ul");
         $(listForAttractions).addClass("connectedSortable col-lg-12");
-        $(listForAttractions).attr("style","list-style-type: none; padding-bottom : 2%;white-space:normal");
+        $(listForAttractions).attr("style","list-style-type: none; padding-bottom : 2%;white-space:normal;background-color:rgb(228, 228, 226)");
         var idNum = parseInt(oneDay)+1;
         $(divForThumbnail).append(listForAttractions);
 
@@ -173,9 +187,12 @@ function populateEverything(allAttractions,distanceArray) {
 
                 var transitTime = document.createElement("span");
                 $(transitTime).attr("id",oneDay + ":" + attraction + ":strip");
-                $(transitTime).html(parseInt(parseInt(distanceArray[oneDay][attraction])/30000 * 60 + 5).toString() + " mins");
+                var timeInMinutes = parseInt(parseInt(distanceArray[oneDay][attraction])/30000.0 * 60.0 + 5);
+                timesForAllDays[oneDay] += timeInMinutes/60.0;
+                $(transitTime).html(timeInMinutes.toString() + " mins");
 
                 var roadStrip = document.createElement("img");
+//                $(roadStrip).addClass("fa fa-road fa-4x")
                 $(roadStrip).attr("src", "images/road.png");
                 $(roadStrip).attr("style", "width:30%;height:40px;margin-left:10%");
 
@@ -241,7 +258,55 @@ function populateEverything(allAttractions,distanceArray) {
             $(divForImage).append(description);
 
             var visitingTime = document.createElement("div");
-            $(visitingTime).html("<br>" + allAttractions[oneDay][attraction]["visitTime"].toFixed(2) + " hrs");
+
+            var timeToVisitInHours = allAttractions[oneDay][attraction]["visitTime"];
+
+            var timeDiv = document.createElement("div");
+            $(timeDiv).addClass("col-lg-12 ");
+            $(timeDiv).attr("style","padding:0%");
+
+            var minutesVisited = Math.floor((timeToVisitInHours%1)*60.0);
+            var hoursVisited = Math.floor(timeToVisitInHours);
+
+            var inputHours = document.createElement("input");
+            $(inputHours).addClass("form-control");
+            $(inputHours).attr("style","width:70%;float:left;");
+            $(inputHours).attr("placeholder",hoursVisited);
+            $(inputHours).attr("value",hoursVisited);
+            $(inputHours).attr("id",oneDay+":"+attraction+":"+hoursVisited+":hourInput");
+            $(inputHours).change(function(){
+                var myNewArray = $(this).attr("id").split(":");
+                var outer = myNewArray[0];
+                var inner = myNewArray[1];
+                var initial = myNewArray[2];
+                allAttractions[outer][inner]["visitTime"] += (parseInt($(this).val())-parseInt(initial));
+                populateEverything(allAttractions,distanceArray);
+            });
+
+            var inputMinutes = document.createElement("input");
+            $(inputMinutes).addClass("form-control");
+            $(inputMinutes).attr("style","width:70%;float:left");
+            $(inputMinutes).attr("placeholder",minutesVisited);
+            $(inputMinutes).attr("value",minutesVisited);
+            $(inputMinutes).attr("id",oneDay+":"+attraction+":"+minutesVisited + ":minuteInput");
+            $(inputMinutes).change(function(){
+                var myNewArray2 = $(this).attr("id").split(":");
+                var outer2 = myNewArray2[0];
+                var inner2 = myNewArray2[1];
+                var initial2 = myNewArray2[2];
+                allAttractions[outer2][inner2]["visitTime"] += (parseInt($(this).val())-parseInt(initial2))/60.0;
+                populateEverything(allAttractions,distanceArray);
+            });
+
+            $(timeDiv).append(inputHours);
+            $(timeDiv).append("<span style='width: 20%;float:right;margin-top:15%'>hrs</span><br><br>");
+            $(timeDiv).append(inputMinutes);
+            $(timeDiv).append("<span style='width: 20%;float:right;margin-top:15%'>min</span><br>");
+
+            $(visitingTime).append(timeDiv);
+
+            timesForAllDays[oneDay] += parseInt($(inputHours).attr("value")) + parseInt($(inputMinutes).attr("value"))/60.0;
+
             $(visitingTime).addClass("col-lg-6");
             $(divForImage).append(visitingTime);
 
@@ -259,7 +324,12 @@ function populateEverything(allAttractions,distanceArray) {
 
         $(listElement).append(parentDivForThumbnail);
         $("#container").append(listElement);
+        var myVariable = document.getElementById(oneDay+":timeTaken");
 
+        var minutesVisited = Math.floor((timesForAllDays[oneDay]%1)*60.0);
+        var hoursVisited = Math.floor(timesForAllDays[oneDay]);
+
+        $(myVariable).html(hoursVisited + " h " + minutesVisited + " m");
     }
     $(".connectedSortable").sortable({
         items: '> div:not(.myClass2)',
@@ -291,4 +361,5 @@ function populateEverything(allAttractions,distanceArray) {
         handles: 'w,e',
         connectWith: ".outerlist"
     }).disableSelection();
+
 }
