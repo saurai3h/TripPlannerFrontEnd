@@ -184,8 +184,8 @@ function populateEverything(allAttractions,distanceArray) {
             var toSubtract;
 
             var timeToVisitInHours = allAttractions[oneDay][attraction]["visitTime"];
-            var minutesVisited = Math.floor((timeToVisitInHours%1)*60.0);
-            var hoursVisited = Math.floor(timeToVisitInHours);
+            var minuteVisited = Math.floor((timeToVisitInHours%1)*60.0);
+            var hourVisited = Math.floor(timeToVisitInHours);
 
             if(attraction < allAttractions[oneDay].length - 1) {
 
@@ -288,10 +288,10 @@ function populateEverything(allAttractions,distanceArray) {
 
             var inputHours = document.createElement("input");
             $(inputHours).addClass("form-control");
-            $(inputHours).attr("style","width:70%;float:left;");
-            $(inputHours).attr("placeholder",hoursVisited);
-            $(inputHours).attr("value",hoursVisited);
-            $(inputHours).attr("id",oneDay+":"+attraction+":"+hoursVisited+":hourInput");
+            $(inputHours).attr("style","width:45%;float:left;padding:0% 10%");
+            $(inputHours).attr("placeholder",hourVisited);
+            $(inputHours).attr("value",hourVisited);
+            $(inputHours).attr("id",oneDay+":"+attraction+":"+hourVisited+":hourInput");
             $(inputHours).change(function(){
                 var myNewArray = $(this).attr("id").split(":");
                 var outer = myNewArray[0];
@@ -303,10 +303,10 @@ function populateEverything(allAttractions,distanceArray) {
 
             var inputMinutes = document.createElement("input");
             $(inputMinutes).addClass("form-control");
-            $(inputMinutes).attr("style","width:70%;float:left");
-            $(inputMinutes).attr("placeholder",minutesVisited);
-            $(inputMinutes).attr("value",minutesVisited);
-            $(inputMinutes).attr("id",oneDay+":"+attraction+":"+minutesVisited + ":minuteInput");
+            $(inputMinutes).attr("style","width:45%;float:left;padding:0% 10%");
+            $(inputMinutes).attr("placeholder",minuteVisited);
+            $(inputMinutes).attr("value",minuteVisited);
+            $(inputMinutes).attr("id",oneDay+":"+attraction+":"+minuteVisited + ":minuteInput");
             $(inputMinutes).change(function(){
                 var myNewArray2 = $(this).attr("id").split(":");
                 var outer2 = myNewArray2[0];
@@ -317,9 +317,10 @@ function populateEverything(allAttractions,distanceArray) {
             });
 
             $(timeDiv).append(inputHours);
-            $(timeDiv).append("<span style='width: 20%;float:right;margin-top:15%'>hrs</span><br><br>");
+            $(timeDiv).append("<span>&nbsp;&nbsp;</span>");
             $(timeDiv).append(inputMinutes);
-            $(timeDiv).append("<span style='width: 20%;float:right;margin-top:15%'>min</span><br>");
+            $(timeDiv).append("<span style='margin-left:3%;margin-top:15%'>hrs</span>");
+            $(timeDiv).append("<span style='margin-left:3%;margin-top:15%'>min</span>");
 
             $(visitingTime).append(timeDiv);
 

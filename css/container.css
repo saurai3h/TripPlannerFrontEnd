@@ -16,6 +16,10 @@
     white-space: nowrap;
 }
 
+#day-time   {
+    width: 100%;
+    white-space: nowrap;
+}
 .outerlist  {
 
 }
