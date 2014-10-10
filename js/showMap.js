@@ -5,6 +5,8 @@ var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
 var orderArray = [];
+var markerArray = [];
+
 var alphabetsCapital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var alphabetsSmall = "abcdefghijklmnopqrstuvwxyz";
 
@@ -76,6 +78,33 @@ populatePanelForAll = function(allAttractions,lengthOfEachDay)  {
 
     for(var i = 0 ; i < days ; ++i) {
 
+        var linkColor;
+        switch (i + 1)  {
+            case 1:
+                linkColor = "#ff0022";
+                break;
+            case 2:
+                linkColor = "#1000f5";
+                break;
+            case 3:
+                linkColor = "#2afa31";
+                break;
+            case 4:
+                linkColor = "#e2fa28";
+                break;
+            case 5:
+                linkColor = "#da47ff";
+                break;
+            case 6:
+                linkColor = "#fa7c28";
+                break;
+            case 7:
+                linkColor = "#28f3fa";
+                break;
+            default:
+                linkColor = "#4e5952";
+        }
+
         var group = document.createElement("div");
         $(group).addClass("accordion-group");
         $("#accordion").append(group);
@@ -89,11 +118,31 @@ populatePanelForAll = function(allAttractions,lengthOfEachDay)  {
         $(headLink).attr("data-toggle","collapse");
         $(headLink).attr("data-parent","#accordion");
         $(headLink).attr("href","#collapse" + parseInt(i+1).toString());
+        $(headLink).attr("id",parseInt(i+1).toString() + ":Link");
         $(headLink).html("Day " + parseInt(i+1).toString());
+        $(headLink).attr("style","text-decoration:none;border-bottom: 2px solid;border-bottom-color:" + linkColor + ";font-size:135%");
+        $(headLink).on("click",function(){
+            var findingDay = parseInt($(this).attr("id").split(":")[0]);
+            var initialMarker;
+            var finalMarker;
+            if(findingDay === 1) {
+                initialMarker = 0;
+                finalMarker = lengthOfEachDay[0] - 1;
+            }
+            else    {
+                initialMarker = lengthOfEachDay[findingDay-2];
+                finalMarker = lengthOfEachDay[findingDay-1] - 1;
+            }
+
+            for(var i = initialMarker ; i <= finalMarker ; ++i) {
+                google.maps.event.trigger(markerArray[i],"click");
+            }
+
+        });
         $(heading).append(headLink);
 
         var body = document.createElement("div");
-        $(body).addClass("accordion-body collapse in");
+        $(body).addClass("accordion-body collapse");
         $(body).attr("id","collapse" + parseInt(i+1).toString());
         $(group).append(body);
 
@@ -325,13 +374,25 @@ function showMarkers(attractionArray,lengthArray)  {
             position: getLatLngOfAttraction(attractionArray[attraction]),
             map: map,
             title: attractionArray[attraction]["name"],
+            animation: google.maps.Animation.DROP,
             icon: 'images/' + imageColor + '/letter_' + alphabetsSmall[myNo] + '.png'
         });
+
+        markerArray.push(marker);
+
+        google.maps.event.addListener(marker, 'click', toggleBounce);
+
+        function toggleBounce() {
+            if (this.getAnimation() != null) {
+                this.setAnimation(null);
+            } else {
+                this.setAnimation(google.maps.Animation.BOUNCE);
+            }
+        }
+
     }
 
-//    for(var i = days-1 ; i > 0 ; --i) {
-//        lengthArray[i] -= lengthArray[i-1];
-//    }
+
 
     populatePanelForAll(attractionArray, lengthArray);
 }
