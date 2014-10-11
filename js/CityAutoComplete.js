@@ -16,7 +16,5 @@ $("#cityName").autocomplete({
 });
 
 var changeBackground = function(cityName)   {
-
-//        $("#top").attr("style","background : url(http://media-cdn.tripadvisor.com/media/photo-s/03/9b/2d/ad/bangkok.jpg) no-repeat center center scroll; background-size : 100% auto");
         $("#top").attr("style","background : url(img/" + cityName.replace(" ","") + ".jpg) no-repeat center center scroll; background-size : 100% auto");
 }

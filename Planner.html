@@ -133,9 +133,6 @@
 <script src="js/jquery-1.11.0.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 
-<!--jquery cookies-->
-<script src="js/jquery.cookie.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <!--Moment-->
@@ -148,7 +145,6 @@
 <script src="js/redirectingToMap.js"></script>
 <!--Modal for Adding-->
 <script src="js/populateExceptGiven.js"></script>
-
 <!--PDF generator-->
 <script type="text/javascript" src="js/pdf/jspdf.js"></script>
 <script type="text/javascript" src="js/pdf/adler32cs.js"></script>
@@ -159,11 +155,11 @@
 <script type="text/javascript" src="js/pdf/jspdf.plugin.split_text_to_size.js"></script>
 <script type="text/javascript" src="js/pdf/jspdf.plugin.from_html.js"></script>
 <script type="text/javascript" src="js/pdf/basic.js"></script>
-<!--<!--Printing page-->-->
-<!--<script type="text/javascript" src="js/printThis.js"></script>-->
 <script type="text/javascript">
     $(function () {
+
         $('#toSave').on("click",function () {
+
             var allAttractions = JSON.parse(window.name);
             var days = allAttractions.length;
 
@@ -171,7 +167,7 @@
             var pos = 35;
             for(var i = 1 ; i <= days ; ++i) {
                 doc.setFontSize(30);
-                doc.text(pos, pos, 'Day ' + i);
+                doc.text(pos, pos, 'Day ' + i + " : " + timesForAllDays[i-1].toFixed(2) + " hours");
                 doc.setFontSize(15);
                 doc.text(pos,pos + 10,"");
                 for(var j = 1 ; j <= allAttractions[i-1].length ; ++j)   {

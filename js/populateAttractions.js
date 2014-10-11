@@ -118,6 +118,18 @@ function populateEverything(allAttractions,distanceArray) {
     $("#container").empty();
 
     for(var oneDay in allAttractions) {
+
+//        Assuming one lunch and one tea break everyday.
+        var lunchTaken = false;
+        var teaTaken = false;
+        var lunchbreak = document.createElement("img");
+        $(lunchbreak).attr("src","images/lunch.png");
+        $(lunchbreak).addClass("breaks");
+
+        var teabreak = document.createElement("img");
+        $(teabreak).attr("src","images/tea.png");
+        $(teabreak).addClass("breaks");
+
         timesForAllDays[oneDay] = 0;
         var listElement = document.createElement("li");
         $(listElement).attr("style","width:25%;display:inline-block;height:100%;");
@@ -346,6 +358,19 @@ function populateEverything(allAttractions,distanceArray) {
 
             $(listForAttractions).append(div);
 
+//            Assuming time for lunch is 11:30 am to 12:15 pm.
+            if(timesForAllDays[oneDay] >= 2.5 && lunchTaken === false)   {
+                $(listForAttractions).append(lunchbreak);
+                lunchTaken = true;
+                timesForAllDays[oneDay] += 0.75;
+            }
+
+//            Assuming time for tea is 5 pm to 5:15 pm.
+            if(timesForAllDays[oneDay] >= 8 && teaTaken === false)   {
+                $(listForAttractions).append(teabreak);
+                teaTaken = true;
+                timesForAllDays[oneDay] += 0.25;
+            }
             $(listForAttractions).append(transit);
         }
 
