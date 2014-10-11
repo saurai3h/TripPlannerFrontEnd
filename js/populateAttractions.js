@@ -1,7 +1,12 @@
 var allAttractionsForACity;
 var timesForAllDays = [];
 
+$(window).load(function() {
+    $(".loader").fadeOut("slow");
+});
+
 function calculateDistanceAndPopulateAttractions(attractionsForAllDays) {
+
     var attractionIDs = [];
     for (var outer in attractionsForAllDays) {
         var attractionIDsOneDay = [];
@@ -80,7 +85,6 @@ populateAttractions =
                                 success: function (strData) {
 
                                     var attractionsForAllDays = jQuery.parseJSON(strData);
-//                                    console.log(attractionsForAllDays);
 
                                     clearAndSetCookiesForSchedules(attractionsForAllDays);
 
@@ -101,7 +105,6 @@ populateAttractions =
 
                         allAttractionsForACity = JSON.parse(allData);
                         var attractionsForAllDays = JSON.parse(window.name);
-                        clearAndSetCookiesForSchedules(attractionsForAllDays);
                         calculateDistanceAndPopulateAttractions(attractionsForAllDays);
                     }
                 }
@@ -268,8 +271,10 @@ function populateEverything(allAttractions,distanceArray) {
             $(divForImage).addClass("col-lg-12");
 
             var image = document.createElement("img");
+            $(image).addClass("col-lg-6");
             $(image).attr("src",allAttractions[oneDay][attraction]["imageURL"]);
-            $(image).attr("style","padding-left:2%;padding-top:2%;padding-bottom:2%; height:110px");
+            $(image).attr("style","padding-left:2%;padding-top:2%;padding-bottom:2%; height:110px;");
+
             $(divForImage).append(image);
 
             var desc_content = allAttractions[oneDay][attraction]["category"];
@@ -277,7 +282,6 @@ function populateEverything(allAttractions,distanceArray) {
             $(description).html(desc_content.split(",")[0]);
             $(description).attr("style", "padding-top:5%");
             $(description).addClass("col-lg-6");
-            $(image).addClass("col-lg-6");
             $(divForImage).append(description);
 
             var visitingTime = document.createElement("div");
@@ -298,6 +302,8 @@ function populateEverything(allAttractions,distanceArray) {
                 var inner = myNewArray[1];
                 var initial = myNewArray[2];
                 allAttractions[outer][inner]["visitTime"] += (parseInt($(this).val())-parseInt(initial));
+
+                clearAndSetCookiesForSchedules(allAttractions);
                 populateEverything(allAttractions,distanceArray);
             });
 
@@ -313,6 +319,8 @@ function populateEverything(allAttractions,distanceArray) {
                 var inner2 = myNewArray2[1];
                 var initial2 = myNewArray2[2];
                 allAttractions[outer2][inner2]["visitTime"] += (parseInt($(this).val())-parseInt(initial2))/60.0;
+
+                clearAndSetCookiesForSchedules(allAttractions);
                 populateEverything(allAttractions,distanceArray);
             });
 
@@ -374,11 +382,6 @@ function populateEverything(allAttractions,distanceArray) {
             calculateDistanceAndPopulateAttractions(allAttractions);
 
         }
-    }).disableSelection();
-
-    $(".outerlist").sortable({
-        handles: 'w,e',
-        connectWith: ".outerlist"
     }).disableSelection();
 
 }

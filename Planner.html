@@ -6,21 +6,22 @@
     <!--Stylesheets-->
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link media="screen" href="css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
-    <link href="css/stylish-portfolio.css" rel="stylesheet" type="text/css">
+    <link href="css/stylish-portfolio.css" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet">
     <!-- jQuery Version 1.11.0 -->
-    <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
 
     <!--Custom styles of my own-->
-    <link href="css/container.css" rel="stylesheet" type="text/css">
+    <link href="css/container.css" rel="stylesheet">
 
 </head>
 <body>
-
+<div class="loader"></div>
 <nav class="navbar navbar-default" role="navigation" >
     <div class="container-fluid">
 
@@ -40,7 +41,7 @@
         </div>
     </div>
 </nav>
-<div class="row">
+<div id = "rowPlanner" class="row">
     <ul id="day-header">
 
     </ul>
@@ -147,6 +148,44 @@
 <script src="js/redirectingToMap.js"></script>
 <!--Modal for Adding-->
 <script src="js/populateExceptGiven.js"></script>
+
+<!--PDF generator-->
+<script type="text/javascript" src="js/pdf/jspdf.js"></script>
+<script type="text/javascript" src="js/pdf/adler32cs.js"></script>
+<script type="text/javascript" src="js/pdf/FileSaver.js"></script>
+<script type="text/javascript" src="js/pdf/Blob.js"></script>
+<script type="text/javascript" src="js/pdf/jspdf.plugin.addimage.js"></script>
+<script type="text/javascript" src="js/pdf/jspdf.plugin.standard_fonts_metrics.js"></script>
+<script type="text/javascript" src="js/pdf/jspdf.plugin.split_text_to_size.js"></script>
+<script type="text/javascript" src="js/pdf/jspdf.plugin.from_html.js"></script>
+<script type="text/javascript" src="js/pdf/basic.js"></script>
+<!--<!--Printing page-->-->
+<!--<script type="text/javascript" src="js/printThis.js"></script>-->
+<script type="text/javascript">
+    $(function () {
+        $('#toSave').on("click",function () {
+            var allAttractions = JSON.parse(window.name);
+            var days = allAttractions.length;
+
+            var doc = new jsPDF();
+            var pos = 35;
+            for(var i = 1 ; i <= days ; ++i) {
+                doc.setFontSize(30);
+                doc.text(pos, pos, 'Day ' + i);
+                doc.setFontSize(15);
+                doc.text(pos,pos + 10,"");
+                for(var j = 1 ; j <= allAttractions[i-1].length ; ++j)   {
+                    var offset = (j-1)*30;
+                    doc.text(pos,pos + 20 + offset,"NAME : " + allAttractions[i-1][j-1]["name"]);
+                    doc.text(pos,pos + 30 + offset,"VISIT-TIME : " + allAttractions[i-1][j-1]["visitTime"].toFixed(2) + " hours");
+                }
+                if(i<days)doc.addPage();
+            }
+            doc.save("MyTripPlan.pdf");
+        });
+    });
+</script>
+
 
 <script>
     function goHome()   {

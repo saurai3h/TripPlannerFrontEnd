@@ -1,6 +1,11 @@
 /**
  * Created by saurabh on 30/9/14.
  */
+
+$(window).load(function() {
+    $(".loader").fadeOut("slow");
+});
+
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
@@ -29,7 +34,6 @@ $(document).ready(function() {
         $(option).html(i.toString());
         $("#dayNoSelector").append(option);
     }
-
 
 });
 
@@ -234,15 +238,16 @@ populatePanel = function(attractionsData,dayNo)   {
     $("#details").show();
     $(".panel-body").empty();
 
-    var resultAttractionsData = [];
-    resultAttractionsData.push(attractionsData[0]);
+    if(attractionsData.length > 1) {
+        var resultAttractionsData = [];
+        resultAttractionsData.push(attractionsData[0]);
 
-    for(var i = 1 ; i < attractionsData.length - 1; ++i)    {
-        resultAttractionsData.push(attractionsData[orderArray[i-1] + 1]);
+        for (var i = 1; i < attractionsData.length - 1; ++i) {
+            resultAttractionsData.push(attractionsData[orderArray[i - 1] + 1]);
+        }
+        resultAttractionsData.push(attractionsData[attractionsData.length - 1]);
+        attractionsData = resultAttractionsData;
     }
-    resultAttractionsData.push(attractionsData[attractionsData.length - 1]);
-
-    attractionsData = resultAttractionsData;
 
     for(var attraction in attractionsData) {
         var attractionName = attractionsData[attraction]["name"];
@@ -276,48 +281,98 @@ function getLatLngOfAttraction(attraction){
 
 function calcRoute(attractionArray,dayNo) {
 
-    var centerOfTheWorld = new google.maps.LatLng(0,0);
-    var mapOptions = {
-        zoom: 2,
-        center: centerOfTheWorld
-    };
+    if(attractionArray.length == 1) {
 
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        var centerOfTheWorld = new google.maps.LatLng(attractionArray[0]["latitude"], attractionArray[0]["longitude"]);
+        var mapOptions = {
+            zoom: 14,
+            center: centerOfTheWorld
+        };
 
-    directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setMap(map);
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-    var tempArray = attractionArray;
-    var source = attractionArray[0];
-    var destination = attractionArray[attractionArray.length - 1];
+        var imageColor;
+        switch (parseInt(dayNo))  {
+            case 1:
+                imageColor = "red";
+                break;
+            case 2:
+                imageColor = "darkblue";
+                break;
+            case 3:
+                imageColor = "green";
+                break;
+            case 4:
+                imageColor = "yellow";
+                break;
+            case 5:
+                imageColor = "pink";
+                break;
+            case 6:
+                imageColor = "orange";
+                break;
+            case 7:
+                imageColor = "lightblue";
+                break;
+            default:
+                imageColor = "black";
+        }
 
-    var start = getLatLngOfAttraction(attractionArray.shift());
-    var end = getLatLngOfAttraction(attractionArray.pop());
-    wayPointArray = [];
-    for(attraction in attractionArray){
-        wayPointArray.push({
-            location:getLatLngOfAttraction(attractionArray[attraction])
+        var marker = new google.maps.Marker({
+            position: getLatLngOfAttraction(attractionArray[0]),
+            map: map,
+            title: attractionArray[0]["name"],
+            icon: 'images/' + imageColor + '/letter_' + alphabetsSmall[0] + '.png'
+        });
+
+        populatePanel(attractionArray, dayNo);
+    }
+    else {
+
+        var centerOfTheWorld = new google.maps.LatLng(0, 0);
+
+        var mapOptions = {
+            zoom: 2,
+            center: centerOfTheWorld
+        };
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+
+        var tempArray = attractionArray;
+        var source = attractionArray[0];
+        var destination = attractionArray[attractionArray.length - 1];
+
+        var start = getLatLngOfAttraction(attractionArray.shift());
+        var end = getLatLngOfAttraction(attractionArray.pop());
+        wayPointArray = [];
+        for (attraction in attractionArray) {
+            wayPointArray.push({
+                location: getLatLngOfAttraction(attractionArray[attraction])
+            });
+        }
+        var request = {
+            origin: start,
+            destination: end,
+            waypoints: wayPointArray,
+            optimizeWaypoints: false,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                orderArray = response.routes[0].waypoint_order;
+                tempArray.unshift(source);
+                tempArray.push(destination);
+                populatePanel(tempArray, dayNo);
+            }
+            else {
+                alert("error staus: " + status);
+            }
         });
     }
-    var request = {
-        origin: start,
-        destination: end,
-        waypoints: wayPointArray,
-        optimizeWaypoints: false,
-        travelMode: google.maps.TravelMode.DRIVING
-    };
-    directionsService.route(request, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-            orderArray = response.routes[0].waypoint_order;
-            tempArray.unshift(source);
-            tempArray.push(destination);
-            populatePanel(tempArray,dayNo);
-        }
-        else{
-            alert("error staus: "+status);
-        }
-    });
 }
 
 function showMarkers(attractionArray,lengthArray)  {
