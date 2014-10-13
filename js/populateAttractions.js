@@ -412,5 +412,21 @@ function populateEverything(allAttractions,distanceArray) {
 
         }
     }).disableSelection();
+    $(".outerlist").sortable({
+        start: function(e, ui){
+            ui.placeholder[0].attributes[1].value += "display:inline-block";
+        },
+        connectWith:".outerlist",
+        stop: function(event,ui)    {
+            var dragginFrom = ui.item[0].id[0];
+            var draggingTo = ui.item.index();
 
+            var temporary = allAttractions[dragginFrom];
+            allAttractions[dragginFrom] = allAttractions[draggingTo];
+            allAttractions[draggingTo] = temporary;
+
+            clearAndSetCookiesForSchedules(allAttractions);
+            calculateDistanceAndPopulateAttractions(allAttractions);
+        }
+    }).disableSelection();
 }
