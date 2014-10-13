@@ -49,7 +49,7 @@ populateAttractions =
             $(headerElement).attr("style","width:25%;display:inline-block;");//background-color:rgb(2,55,56);border:2px solid rgb(52,25,25);
 
             var divForDayNumber = document.createElement("div");
-            $(divForDayNumber).addClass("col-lg-12");
+            $(divForDayNumber).addClass("col-lg-8");
             $(divForDayNumber).html("Day " + day.toString());
             $(divForDayNumber).attr("style", "font-size:25px;margin-left:35%");
 
