@@ -2,7 +2,7 @@ var allAttractionsForACity;
 var timesForAllDays = [];
 
 $(window).load(function() {
-    $(".loader").fadeOut("slow");
+    $(".loader").fadeOut(3000);
 });
 
 function calculateDistanceAndPopulateAttractions(attractionsForAllDays) {
@@ -46,7 +46,7 @@ populateAttractions =
         for (var day = 1 ; day <= numberOfDays ; ++day) {
 
             var headerElement = document.createElement("li");
-            $(headerElement).attr("style","width:25%;display:inline-block");
+            $(headerElement).attr("style","width:25%;display:inline-block;");//background-color:rgb(2,55,56);border:2px solid rgb(52,25,25);
 
             var divForDayNumber = document.createElement("div");
             $(divForDayNumber).addClass("col-lg-12");
@@ -58,7 +58,7 @@ populateAttractions =
 
             timesForAllDays.push(0);
             var timeElement = document.createElement("li");
-            $(timeElement).attr("style","width:25%;display:inline-block");
+            $(timeElement).attr("style","width:25%;display:inline-block;");//background-color:rgb(18,70,102);border:2px solid rgb(52,25,25);
 
             var divForDayTime = document.createElement("div");
             $(divForDayTime).addClass("col-lg-12");
@@ -237,7 +237,7 @@ function populateEverything(allAttractions,distanceArray) {
             var aLink = document.createElement("a");
             $(aLink).attr("data-toggle","modal");
             $(aLink).attr("data-target","#descriptionModal");
-            $(aLink).attr("style","cursor: pointer;color: #1CC458");
+            $(aLink).attr("style","cursor: pointer;color: #2297CA");
             $(aLink).attr("id",oneDay + ":" + attraction + ":link");
             $(aLink).click(function(e){
                 e.preventDefault();
@@ -260,6 +260,7 @@ function populateEverything(allAttractions,distanceArray) {
 
             var timeSpent = document.createElement("span");
             $(timeSpent).html("&nbsp;&nbsp;" + timeNowHours + ":" + timeNowMinutes);
+            $(timeSpent).addClass("myBlack");
 
             var li = document.createElement("li");
             $(li).attr("style","padding-left:2%;padding-top:2%;");
@@ -295,7 +296,7 @@ function populateEverything(allAttractions,distanceArray) {
             var description = document.createElement("div");
             $(description).html(desc_content.split(",")[0]);
             $(description).attr("style", "padding-top:5%");
-            $(description).addClass("col-lg-6");
+            $(description).addClass("col-lg-6 myBlack");
             $(divForImage).append(description);
 
             var visitingTime = document.createElement("div");
@@ -343,6 +344,7 @@ function populateEverything(allAttractions,distanceArray) {
             $(timeDiv).append(inputMinutes);
             $(timeDiv).append("<span style='margin-left:3%;margin-top:15%'>hrs</span>");
             $(timeDiv).append("<span style='margin-left:3%;margin-top:15%'>min</span>");
+            $(timeDiv).addClass("myBlack");
 
             $(visitingTime).append(timeDiv);
 

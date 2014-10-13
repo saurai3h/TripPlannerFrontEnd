@@ -1,8 +1,15 @@
+body {
+    background-color: rgb(65,65,65);
+}
 .row  {
     width: auto;
     overflow-x: scroll;
     height: 100%;
 
+}
+
+.myBlack  {
+    color:rgb(42,36,36);
 }
 
 #container  {
@@ -12,14 +19,18 @@
 }
 
 #day-header {
-    width: 100%;
     white-space: nowrap;
+    color:rgb(230,242,172);
+    /*background-color: rgb(176,211,151);*/
+
 }
 
 #day-time   {
-    width: 100%;
     white-space: nowrap;
+    color:rgb(174,174,174);
+    /*background-color: rgb(255,254,166);*/
 }
+
 .outerlist  {
 
 }

@@ -199,6 +199,7 @@ populatePanelForAll = function(allAttractions,lengthOfEachDay)  {
 
         var name = document.createElement("span");
         $(name).html("&nbsp;&nbsp;&nbsp;&nbsp;" + attractionName);
+        $(name).attr("style","color:white");
 
         $("#collapse" + parseInt(dayNo).toString() + "> div").append(image);
         $("#collapse" + parseInt(dayNo).toString() + "> div").append(name);
