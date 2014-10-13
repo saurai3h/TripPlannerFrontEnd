@@ -112,6 +112,8 @@ populateAttractions =
         }
 });
 
+//TODO : Scroll horizontally in planner proper and adding/deleting days.
+
 
 function populateEverything(allAttractions,distanceArray) {
 
