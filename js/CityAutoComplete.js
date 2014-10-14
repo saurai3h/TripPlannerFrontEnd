@@ -1,7 +1,7 @@
 /**
  * Created by saurabh on 24/9/14.
  */
-var cityArray = ["Bangkok", "Seoul", "London", "Milan", "Paris", "Rome", "Singapore", "Shanghai" , "New York", "Amsterdam", "Istanbul", "Tokyo", "Dubai", "Vienna", "Kuala Lumpur", "Taipei", "Hong Kong", "Riyadh", "Barcelona", "Los Angeles"];
+var cityArray = ["Bangkok", "London", "Milan", "Paris", "Rome", "Singapore", "Shanghai" , "New York", "Amsterdam", "Istanbul", "Tokyo", "Dubai", "Vienna", "Kuala Lumpur", "Taipei", "Hong Kong", "Mumbai", "Barcelona", "Los Angeles"];
 
 $("#cityName").autocomplete({
 

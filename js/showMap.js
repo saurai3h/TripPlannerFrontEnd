@@ -377,8 +377,7 @@ function calcRoute(attractionArray,dayNo) {
 }
 
 function showMarkers(attractionArray,lengthArray)  {
-
-    markerArray = [];
+    markerArray=[];
     var days = lengthArray.length;
     for(var i = 1 ; i < days ; ++i) {
         lengthArray[i] += lengthArray[i-1];
