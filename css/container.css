@@ -2,9 +2,9 @@ body {
     background-color: rgb(65,65,65);
 }
 .row  {
-    width: auto;
+    width: 100%;
     overflow-x: scroll;
-    height: 100%;
+    height: 89%;
 
 }
 
