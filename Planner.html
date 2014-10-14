@@ -60,7 +60,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="descriptionModalLabel" style="font-family: myFirstFont;font-size: 200%"></h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body"  style="overflow-y: scroll">
 
                 <img id="attractionImage" style="width: 35%; margin-left: 30%; border: solid 5px #dcdcdc" >
 
@@ -106,14 +106,13 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="notVisitedModalLabel">Add any one of these attractions to your trip.</h4>
             </div>
-            <div class="modal-body">
-                <select id = "attractionToAdd" class="form-control">
+            <div class="modal-body"  style="overflow-y: scroll">
+                <ol id = "attractionToAdd">
 
-                </select>
+                </ol>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary myClass">Add Attraction!</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -179,8 +178,14 @@
         });
     });
 </script>
-
-
+<!--Modal showing style-->
+<script>
+    $(".modal").on("show.bs.modal", function() {
+        var height = $(window).height() - 200;
+        $(this).find(".modal-body").css("max-height", height);
+    });
+</script>
+<!--Redirecting to home-->
 <script>
     function goHome()   {
         var sureToLeave = confirm("Your trip plan will be destroyed. Are you sure?");

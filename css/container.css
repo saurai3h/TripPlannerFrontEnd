@@ -2,7 +2,7 @@ body {
     background-color: rgb(65,65,65);
 }
 .row  {
-    width: 100%;
+    width: 100.5%;
     overflow-x: scroll;
     height: 89%;
 
@@ -21,14 +21,12 @@ body {
 #day-header {
     white-space: nowrap;
     color:rgb(230,242,172);
-    /*background-color: rgb(176,211,151);*/
 
 }
 
 #day-time   {
     white-space: nowrap;
     color:rgb(174,174,174);
-    /*background-color: rgb(255,254,166);*/
 }
 
 .outerlist  {
@@ -41,7 +39,10 @@ body {
 }
 
 .myClass {
-
+    cursor:pointer;
+    font-family: myFirstFont;
+    font-size: 150%;
+    color: rgb(24,40,56);
 }
 
 .myClass2   {

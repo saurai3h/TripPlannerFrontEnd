@@ -16,31 +16,38 @@ function populateNotVisited(attractionsSeen,day,elem) {
     var attractionsNotVisited = myFilter(allAttractionsForACity,attractionsVisited);
 
     for(var attraction in attractionsNotVisited)    {
-        var option = document.createElement("option");
-        $(option).attr("value",JSON.stringify(attractionsNotVisited[attraction]));
-        $(option).html(attractionsNotVisited[attraction]["name"]);
 
-        $("#attractionToAdd").append(option);
+        var listElement = document.createElement("li");
+
+        var attractionImage = document.createElement("img");
+        $(attractionImage).attr("src",attractionsNotVisited[attraction]["imageURL"]);
+        $(attractionImage).attr("style","width:20%;border:5px solid rgb(208,208,208)");
+
+        var attractionText = document.createElement("a");
+        $(attractionText).html(attractionsNotVisited[attraction]["name"]);
+        $(attractionText).attr("id",day + ":::" + elem + ":::" + JSON.stringify(attractionsNotVisited[attraction]));
+        $(attractionText).addClass("myClass");
+
+        $(listElement).append("&nbsp;&nbsp;");
+        $(listElement).append(attractionImage);
+        $(listElement).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        $(listElement).append(attractionText);
+
+        $("#attractionToAdd").append(listElement);
+        $("#attractionToAdd").append("<br>");
     }
-
-
-
-    $(".myClass").attr("id",day + ":" + elem + ":addingFinal");
 
     $(".myClass").one("click",function(e){
 
         e.preventDefault();
-
-        var attractionToVisit = JSON.parse($("#attractionToAdd").val());
-
-        var myArray = $(this).attr("id").split(":");
+        var myArray = $(this).attr("id").split(":::");
         var myDay = myArray[0];
         var myElem = myArray[1];
+        var attractionToVisit = JSON.parse(myArray[2]);
 
         attractionsSeen[myDay].splice(myElem,0,attractionToVisit);
         clearAndSetCookiesForSchedules(attractionsSeen);
         calculateDistanceAndPopulateAttractions(attractionsSeen);
-
         $(".close").trigger("click");
     });
 }
