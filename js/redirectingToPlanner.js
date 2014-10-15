@@ -8,8 +8,9 @@ $("#toPlanner").on("click",function(){
 
     var cityName = keyValueData[0].split("=")[1];
     var numberOfDays = keyValueData[1].split("=")[1][0];
+    var hecticity = keyValueData[2].split("=")[1][0];
 
-    $(location).attr("href","Planner.html?city="+cityName+"&days=" + numberOfDays);
+    $(location).attr("href","Planner.html?city="+cityName+"&days=" + numberOfDays + "&mode=" + hecticity);
 
 });
 

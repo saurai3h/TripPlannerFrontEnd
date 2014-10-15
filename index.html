@@ -43,9 +43,9 @@
                 <br>
                 <div style="background-color: #f5f5f5">
 
-                    <strong style="font-family:sans-serif; font-size: 150%; margin-left: -200%;color:darkolivegreen">DAYS</strong>
+                    <strong style="font-family:sans-serif; font-size: 100%; margin-left: -75%;color:darkolivegreen;float:left;margin-top:4%">Days</strong>
 
-                    <select id = "cityDays" class="form-control" style="margin-left: -30%; margin-top: -14%; width: 41%">
+                    <select id = "cityDays" class="form-control" style="margin-left: -52%; float:left; width: 30%">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -55,7 +55,15 @@
                         <option value="7">7</option>
                     </select>
 
-                    <a style="width: 60%; margin-left: 60%; margin-top: -23%" id = "cityClick" class="btn btn-lg btn-primary">Go TRIP!!</a>
+                    <strong style="font-family:sans-serif; font-size: 100%; margin-left: -15%;margin-top:4%;float:left;color:darkolivegreen">Trip Plan</strong>
+
+                    <select id = "hecticity" class="form-control" style="margin-left: 4%; float:left; width:50%">
+                        <option value="1">Light</option>
+                        <option value="2">Normal</option>
+                        <option value="3">Hectic</option>
+                    </select>
+
+                    <a style="width: 60%; margin-left: 85%; margin-top: -23%" id = "cityClick" class="btn btn-lg btn-primary">Go TRIP!!</a>
                 </div>
             </div>
         </div>
@@ -88,7 +96,7 @@
     $(document).ready(function(){window.name = "empty";});
 
     $("#cityClick").on("click", function() {
-        var url = "Planner.html?city=" + $("#cityName").val() + "&days=" + $("#cityDays").val();
+        var url = "Planner.html?city=" + $("#cityName").val() + "&days=" + $("#cityDays").val() + "&mode=" + $("#hecticity").val();
         $(location).attr("href",url);
     });
 

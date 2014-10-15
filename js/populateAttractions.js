@@ -42,12 +42,13 @@ populateAttractions =
 
         var cityName = keyValueData[0].split("=")[1];
         var numberOfDays = keyValueData[1].split("=")[1][0];
+        var hecticity = keyValueData[2].split("=")[1][0];
 
     // TODO : changing later when you delete/add the day itself.
         for (var day = 1 ; day <= numberOfDays ; ++day) {
 
             var headerElement = document.createElement("li");
-            $(headerElement).attr("style","width:25%;display:inline-block;");//background-color:rgb(2,55,56);border:2px solid rgb(52,25,25);
+            $(headerElement).attr("style","width:25%;display:inline-block;");
 
             var divForDayNumber = document.createElement("div");
             $(divForDayNumber).addClass("col-lg-8");
@@ -59,7 +60,7 @@ populateAttractions =
 
             timesForAllDays.push(0);
             var timeElement = document.createElement("li");
-            $(timeElement).attr("style","width:25%;display:inline-block;");//background-color:rgb(18,70,102);border:2px solid rgb(52,25,25);
+            $(timeElement).attr("style","width:25%;display:inline-block;");
 
             var divForDayTime = document.createElement("div");
             $(divForDayTime).addClass("col-lg-12");
@@ -81,7 +82,7 @@ populateAttractions =
 
                         $.ajax(
                             {
-                                url: server + "api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays,
+                                url: server + "api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays + "&mode=" + hecticity,
                                 type: "GET",
                                 success: function (strData) {
 
