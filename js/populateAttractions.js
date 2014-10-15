@@ -1,5 +1,6 @@
 var allAttractionsForACity;
 var timesForAllDays = [];
+const server = "http://172.16.152.143:8080/";
 
 $(window).load(function() {
     $(".loader").fadeOut(3000);
@@ -17,7 +18,7 @@ function calculateDistanceAndPopulateAttractions(attractionsForAllDays) {
     }
 
     $.ajax({
-        url: "http://localhost:8080/api/distanceBetweenAllAttractions",
+        url: server + "api/distanceBetweenAllAttractions",
         type: "POST",
         data: {attractionIDs: JSON.stringify(attractionIDs)},
         success: function (dataALL) {
@@ -72,7 +73,7 @@ populateAttractions =
         if(window.name === "empty") {
             $.ajax(
                 {
-                    url: "http://localhost:8080/api/getAllAttractions?city=" + cityName,
+                    url: server + "api/getAllAttractions?city=" + cityName,
                     type: "GET",
                     success: function(allData)  {
 
@@ -80,7 +81,7 @@ populateAttractions =
 
                         $.ajax(
                             {
-                                url: "http://localhost:8080/api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays,
+                                url: server + "api/attractionsForACity?city=" + cityName + "&days=" + numberOfDays,
                                 type: "GET",
                                 success: function (strData) {
 
@@ -99,7 +100,7 @@ populateAttractions =
         else    {
             $.ajax(
                 {
-                    url: "http://localhost:8080/api/getAllAttractions?city=" + cityName,
+                    url: server + "api/getAllAttractions?city=" + cityName,
                     type: "GET",
                     success: function(allData)  {
 
