@@ -377,6 +377,17 @@ function calcRoute(attractionArray,dayNo) {
 }
 
 function showMarkers(attractionArray,lengthArray)  {
+
+    var centerMeanLatitude = 0.0;
+    var centerMeanLongitude = 0.0;
+
+    for(var i = 0 ; i < attractionArray.length ; ++i)   {
+        centerMeanLatitude += attractionArray[i]["latitude"];
+        centerMeanLongitude += attractionArray[i]["longitude"];
+    }
+    centerMeanLatitude /= attractionArray.length;
+    centerMeanLongitude /= attractionArray.length;
+
     markerArray=[];
     var days = lengthArray.length;
     for(var i = 1 ; i < days ; ++i) {
@@ -384,8 +395,8 @@ function showMarkers(attractionArray,lengthArray)  {
     }
 
     var mapOptions = {
-        zoom: 12,
-        center: getLatLngOfAttraction(attractionArray[0])
+        zoom: 11,
+        center: new google.maps.LatLng(centerMeanLatitude, centerMeanLongitude)
     };
 
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);

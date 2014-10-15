@@ -2,7 +2,7 @@
  * Created by saurabh on 24/9/14.
  */
 var cityArray = ["Bangkok", "London", "Milan", "Paris", "Rome", "Singapore", "Shanghai" , "New York", "Amsterdam", "Istanbul", "Tokyo", "Dubai", "Vienna", "Kuala Lumpur", "Taipei", "Hong Kong", "Mumbai", "Barcelona", "Los Angeles",
-"Rio de Janeiro","Sydney"];
+"Rio de Janeiro","Sydney","Delhi"];
 
 $("#cityName").autocomplete({
 
@@ -18,4 +18,5 @@ $("#cityName").autocomplete({
 
 var changeBackground = function(cityName)   {
         $("#top").attr("style","background : url(img/" + cityName.replace(" ","").replace(" ","") + ".jpg) no-repeat center center scroll; background-size : 100% auto");
+        $("#top > div").attr("style","opacity:0.7");
 }
