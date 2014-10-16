@@ -36,6 +36,7 @@
                 <li><a id="toMap" href="#">Map</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a style="cursor: pointer" onclick="addingDay()">Add a Day To This Trip!</a></li>
                 <li><a id="toSave" href="#">Save</a></li>
             </ul>
         </div>
@@ -71,15 +72,15 @@
                     <div class="panel-body">
                         <table>
                             <tbody>
-                                <tr id="stars" style="display: none">
-                                    <th>Stars :</th>
-                                </tr>
-                                <tr id="visitTime" style="display: none">
-                                    <th>Expected Visit time :</th>
-                                </tr>
-                                <tr id="fee" style="display: none">
-                                    <th>Fee :</th>
-                                </tr>
+                            <tr id="stars" style="display: none">
+                                <th>Stars :</th>
+                            </tr>
+                            <tr id="visitTime" style="display: none">
+                                <th>Expected Visit time :</th>
+                            </tr>
+                            <tr id="fee" style="display: none">
+                                <th>Fee :</th>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -154,15 +155,6 @@
 <script type="text/javascript" src="js/pdf/basic.js"></script>
 <script type="text/javascript">
     $(function () {
-
-//        var FF = !(window.mozInnerScreenX == null);
-//        var width = $(window).width();
-//        if (FF){
-//            $('body').css('-moz-transform','scale(' + width/1366 +')');
-//        } else {
-//            $('body').css('zoom', width/1366);
-//        }
-
         $('#toSave').on("click",function () {
 
             var allAttractions = JSON.parse(window.name);
@@ -185,6 +177,28 @@
             doc.save("MyTripPlan.pdf");
         });
     });
+
+    function replaceUrlParam(url, paramName, paramValue){
+        var pattern = new RegExp('('+paramName+'=).*?(&|$)');
+        var newUrl = url.replace(pattern,'$1' + paramValue + '$2');
+        if(newUrl == url){
+            newUrl = newUrl + (newUrl.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
+        }
+        return newUrl;
+    }
+
+    function addingDay()    {
+
+        var url = $(location).attr("href");
+        var keyValueData = url.split("?")[1].split("&");
+        var numberOfDays = keyValueData[1].split("=")[1][0];
+
+        var attractions = JSON.parse(window.name);
+        attractions.push([]);
+        window.name = JSON.stringify(attractions);
+
+        window.location.href = replaceUrlParam(url, "days", parseInt(numberOfDays) + 1);
+    }
 </script>
 <!--Modal showing style-->
 <script>

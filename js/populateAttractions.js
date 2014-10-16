@@ -1,6 +1,6 @@
 var allAttractionsForACity;
 var timesForAllDays = [];
-const server = "http://172.16.152.143:8080/";
+const server = "http://172.16.136.124:8080/";
 
 $(window).load(function() {
     $(".loader").fadeOut(3000);
@@ -44,7 +44,7 @@ populateAttractions =
         var numberOfDays = keyValueData[1].split("=")[1][0];
         var hecticity = keyValueData[2].split("=")[1][0];
 
-    // TODO : changing later when you delete/add the day itself.
+        // TODO : changing later when you delete/add the day itself.
         for (var day = 1 ; day <= numberOfDays ; ++day) {
 
             var headerElement = document.createElement("li");
@@ -112,7 +112,7 @@ populateAttractions =
                 }
             );
         }
-});
+    });
 
 //TODO : Scroll horizontally in planner proper and adding/deleting days.
 
@@ -126,13 +126,13 @@ function populateEverything(allAttractions,distanceArray) {
 //        Assuming one lunch and one tea break everyday.
         var lunchTaken = false;
         var teaTaken = false;
-        var lunchbreak = document.createElement("img");
-        $(lunchbreak).attr("src","images/lunch.png");
-        $(lunchbreak).addClass("breaks");
+        var lunchbreak = document.createElement("i");
+//        $(lunchbreak).attr("src","images/lunch.png");
+        $(lunchbreak).addClass("fa fa-cutlery fa-3x lunch");
 
-        var teabreak = document.createElement("img");
-        $(teabreak).attr("src","images/tea.png");
-        $(teabreak).addClass("breaks");
+        var teabreak = document.createElement("i");
+//        $(teabreak).attr("src","images/tea.png");
+        $(teabreak).addClass("fa fa-coffee fa-3x tea");
 
         timesForAllDays[oneDay] = 0;
         var listElement = document.createElement("li");
@@ -141,6 +141,25 @@ function populateEverything(allAttractions,distanceArray) {
 
         var parentDivForThumbnail = document.createElement("div");
         $(parentDivForThumbnail).addClass("col-lg-12");
+
+        var deleteDayImage = document.createElement("i");
+        $(deleteDayImage).addClass("fa fa-times fa-3x");
+        $(deleteDayImage).attr("style","margin-left:44%;cursor:pointer;color:#F74343");
+        $(deleteDayImage).attr("id",oneDay + ":" + ":deleteDayImage");
+
+        $(deleteDayImage).one("click",function () {
+            var isConfirmed = confirm("Are you sure you want to delete this day? This cannot be undone!");
+            if(isConfirmed === true) {
+                var myArray = $(this).attr("id").split(":");
+                var myDay = parseInt(myArray[0]);
+
+                allAttractions.splice(myDay, 1);
+
+                clearAndSetCookiesForSchedules(allAttractions);
+                deletingDay();
+            }
+        });
+        $(parentDivForThumbnail).append(deleteDayImage);
 
         var divForThumbnail = document.createElement("div");
         $(divForThumbnail).addClass("thumbnail col-lg-12");
@@ -168,6 +187,7 @@ function populateEverything(allAttractions,distanceArray) {
             var day = parseInt(myArray[0]);
             var element = parseInt(myArray[1]);
 
+            clearAndSetCookiesForSchedules(allAttractions);
             populateNotVisited(allAttractions,day,element);
         });
 
@@ -197,6 +217,7 @@ function populateEverything(allAttractions,distanceArray) {
                 var day = parseInt(myArray[0]);
                 var element = parseInt(myArray[1]);
 
+                clearAndSetCookiesForSchedules(allAttractions);
                 populateNotVisited(allAttractions,day,element);
             });
 
@@ -210,7 +231,7 @@ function populateEverything(allAttractions,distanceArray) {
 
                 $(transit).attr("style", "display:inline-block;margin-left:15%");
 
-                var transitTime = document.createElement("span");
+                var transitTime = document.createElement("text");
                 $(transitTime).attr("id",oneDay + ":" + attraction + ":strip");
 
                 var timeInMinutes = parseInt(parseInt(distanceArray[oneDay][attraction])/30000.0 * 60.0 + 5);
@@ -219,9 +240,11 @@ function populateEverything(allAttractions,distanceArray) {
 
                 $(transitTime).html(timeInMinutes.toString() + " mins");
 
-                var roadStrip = document.createElement("img");
-                $(roadStrip).attr("src", "images/road.png");
-                $(roadStrip).attr("style", "width:30%;height:40px;margin-left:10%");
+                var roadStrip = document.createElement("i");
+//                $(roadStrip).attr("src", "images/road.png");
+//                $(roadStrip).attr("style", "width:30%;height:40px;margin-left:10%");
+                $(roadStrip).addClass("fa fa-sort-desc fa-4x");
+                $(roadStrip).attr("style","margin:-10% 0% 0% 13%")
 
                 $(transit).append(transitTime);
                 $(transit).append(roadStrip);
@@ -275,7 +298,7 @@ function populateEverything(allAttractions,distanceArray) {
             $(deleteImage).attr("style","float:right;font-size:130%;margin-top:2%;cursor:pointer;color:#B22222");
             $(deleteImage).attr("id",oneDay + ":" + attraction + ":deleteImage");
 
-            $(deleteImage).click(function () {
+            $(deleteImage).one("click",function () {
                 var myArray = $(this).attr("id").split(":");
                 var day = parseInt(myArray[0]);
                 var element = parseInt(myArray[1]);
@@ -432,4 +455,10 @@ function populateEverything(allAttractions,distanceArray) {
             calculateDistanceAndPopulateAttractions(allAttractions);
         }
     }).disableSelection();
+}
+function deletingDay()  {
+    var url = $(location).attr("href");
+    var keyValueData = url.split("?")[1].split("&");
+    var numberOfDays = keyValueData[1].split("=")[1][0];
+    window.location.href = replaceUrlParam(url, "days", parseInt(numberOfDays) - 1);
 }
