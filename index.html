@@ -45,7 +45,7 @@
 
                     <strong style="font-family:sans-serif; font-size: 100%; margin-left: -75%;color:darkolivegreen;float:left;margin-top:4%">Days</strong>
 
-                    <select id = "cityDays" class="form-control" style="margin-left: -52%; float:left; width: 30%">
+                    <select id = "cityDays" class="form-control" style="padding:6px 6px;margin-left: -52%; float:left; width: 30%">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -88,11 +88,22 @@
 <!--Redirects to Planner with values needed-->
 <script>
 
+//    var FF = !(window.mozInnerScreenX == null);
+//    var width = $(window).width();
+
     $(window).load(function() {
         $(".loader").fadeOut("slow");
     });
 
-    $(document).ready(function(){window.name = "empty";});
+    $(document).ready(function(){
+        window.name = "empty";
+
+//        if (FF){
+//            $('body').css('-moz-transform','scale(' + width/1366 +')');
+//        } else {
+//            $('body').css('zoom', width/1366);
+//        }
+    });
 
     $("#cityClick").on("click", function() {
         var url = "Planner.html?city=" + $("#cityName").val() + "&days=" + $("#cityDays").val() + "&mode=" + $("#hecticity").val();

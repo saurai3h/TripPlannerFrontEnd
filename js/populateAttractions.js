@@ -1,6 +1,6 @@
 var allAttractionsForACity;
 var timesForAllDays = [];
-const server = "http://172.16.136.124:8080/";
+const server = "http://172.16.152.143:8080/";
 
 $(window).load(function() {
     $(".loader").fadeOut(3000);
@@ -158,7 +158,7 @@ function populateEverything(allAttractions,distanceArray) {
         $(transitInit).addClass("myClass2");
         var addAttractionInit = document.createElement("i");
         $(addAttractionInit).addClass("fa fa-plus fa-2x");
-        $(addAttractionInit).attr("style","float:right;margin-top:5%;font-size:130%;cursor:pointer;margin-right:2%;color:#4A7023");
+        $(addAttractionInit).attr("style","float:right;margin-top:5%;font-size:130%;cursor:pointer;margin-right:38%;color:#4A7023");
         $(addAttractionInit).attr("id",oneDay + ":" + 0 + ":addImage");
         $(addAttractionInit).attr("data-toggle","modal");
         $(addAttractionInit).attr("data-target","#notVisitedModal");
@@ -171,7 +171,7 @@ function populateEverything(allAttractions,distanceArray) {
             populateNotVisited(allAttractions,day,element);
         });
 
-        $(transitInit).attr("style","display:inline-block;margin-left:47%;margin-top:5%");
+        $(transitInit).attr("style","display:inline-block;margin-top:5%");
         $(transitInit).append(addAttractionInit);
         $(listForAttractions).append(transitInit);
 
@@ -228,7 +228,8 @@ function populateEverything(allAttractions,distanceArray) {
                 $(transit).append(addAttraction);
             }   else {
                 toSubtract = 0;
-                $(transit).attr("style","display:inline-block;margin-left:47%;margin-top:5%")
+                $(addAttraction).css("margin-right","38%");
+                $(transit).attr("style","display:inline-block;margin-top:5%");
                 $(transit).append(addAttraction);
                 last = true;
             }

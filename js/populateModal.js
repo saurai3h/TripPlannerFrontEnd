@@ -60,7 +60,7 @@ function populateModal(attractions,day,index) {
             $("#fee").append(feeValue);
         }
     }
-    $("#descriptionModalInfo").on("click",function(){
+    $("#descriptionModalInfo").one("click",function(){
         window.open(attractions[day][index]["reviewURL"],'_blank');
     });
 

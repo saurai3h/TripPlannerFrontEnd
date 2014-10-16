@@ -45,9 +45,6 @@
                 <li><a id="toPlanner" href="#">Planner</a></li>
                 <li class="active"><a id="toMap" href="#">Map</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a id="toSave" href="#">Save</a></li>
-            </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
@@ -96,7 +93,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script src="js/showMap.js"></script>
 <script src="js/redirectingToPlanner.js"></script>
-
 <script>
     function goHome()   {
         var sureToLeave = confirm("Your trip plan will be destroyed. Are you sure?");
@@ -104,6 +100,7 @@
             $(location).attr("href", "index.html");
         }
     }
+
 </script>
 
 </html>

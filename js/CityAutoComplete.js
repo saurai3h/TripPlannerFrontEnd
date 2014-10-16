@@ -17,6 +17,6 @@ $("#cityName").autocomplete({
 });
 
 var changeBackground = function(cityName)   {
-        $("#top").attr("style","background : url(img/" + cityName.replace(" ","").replace(" ","") + ".jpg) no-repeat center center scroll; background-size : 100% auto");
+        $("#top").attr("style","background : url(img/" + cityName.replace(" ","").replace(" ","") + ".jpg) no-repeat center center scroll; background-size : 100% 100%");
         $("#top > div").attr("style","opacity:0.7");
 }

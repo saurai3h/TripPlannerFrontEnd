@@ -5,7 +5,6 @@ body {
     width: 100.5%;
     overflow-x: scroll;
     height: 89%;
-
 }
 
 .myBlack  {
@@ -46,7 +45,7 @@ body {
 }
 
 .myClass2   {
-
+    width:85%
 }
 .loader {
     position: fixed;

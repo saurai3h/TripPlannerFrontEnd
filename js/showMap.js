@@ -23,6 +23,36 @@ var noOfDays = keyValueData[1].split("=")[1][0];
 
 $(document).ready(function() {
 
+//    var FF = !(window.mozInnerScreenX == null);
+//    var width = $(window).width();
+//    if (FF){
+//        $('body').css('-moz-transform','scale(' + width/1366 +')');
+//    } else {
+//        $('body').css('zoom', width/1366);
+//    }
+
+    $('#toSave').on("click",function () {
+
+        var allAttractions = JSON.parse(window.name);
+        var days = allAttractions.length;
+
+        var doc = new jsPDF();
+        var pos = 35;
+        for(var i = 1 ; i <= days ; ++i) {
+            doc.setFontSize(30);
+            doc.text(pos, pos, 'Day ' + i + " : " + timesForAllDays[i-1].toFixed(2) + " hours");
+            doc.setFontSize(15);
+            doc.text(pos,pos + 10,"");
+            for(var j = 1 ; j <= allAttractions[i-1].length ; ++j)   {
+                var offset = (j-1)*30;
+                doc.text(pos,pos + 20 + offset,"NAME : " + allAttractions[i-1][j-1]["name"]);
+                doc.text(pos,pos + 30 + offset,"VISIT-TIME : " + allAttractions[i-1][j-1]["visitTime"].toFixed(2) + " hours");
+            }
+            if(i<days)doc.addPage();
+        }
+        doc.save("MyTripPlan.pdf");
+    });
+
     var defaultOption = document.createElement("option");
     $(defaultOption).attr("value","All");
     $(defaultOption).html("All");
@@ -446,22 +476,21 @@ function showMarkers(attractionArray,lengthArray)  {
         });
 
         markerArray.push(marker);
-
         google.maps.event.addListener(marker, 'click', toggleBounce);
-
-        function toggleBounce() {
-            if (this.getAnimation() != null) {
-                this.setAnimation(null);
-            } else {
-                this.setAnimation(google.maps.Animation.BOUNCE);
-            }
-        }
 
     }
 
 
 
     populatePanelForAll(attractionArray, lengthArray);
+}
+
+function toggleBounce() {
+    if (this.getAnimation() != null) {
+        this.setAnimation(null);
+    } else {
+        this.setAnimation(google.maps.Animation.BOUNCE);
+    }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
