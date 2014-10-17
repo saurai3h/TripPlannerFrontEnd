@@ -1,6 +1,6 @@
 var allAttractionsForACity;
 var timesForAllDays = [];
-const server = "http://172.16.136.124:8080/";
+const server = "http://172.16.152.143:8080/";
 
 $(window).load(function() {
     $(".loader").fadeOut(3000);
